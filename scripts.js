@@ -160,12 +160,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Prepare email body
             const emailBody = `
-                Name: ${name}
-                Email: ${email}
-                Company: ${company}
-                Message: ${message}
-                Marketing Consent: ${consent}
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Company:</strong> ${company}</p>
+                <p><strong>Message:</strong> ${message}</p>
+                <p><strong>Marketing Consent:</strong> ${consent}</p>
             `;
+     
             
             // Send email using SMTP.js
             // Replace these values with your actual SMTP credentials
