@@ -104,18 +104,15 @@ function setupDownloadButtons() {
     
     downloadButtons.forEach(function(button) {
         button.addEventListener('click', function() {
-            console.log("Button clicked!"); // Add this to check if click works
+            console.log("Download button clicked"); // Add this for debugging
             
             // Create a temporary link to download the resume
             const link = document.createElement('a');
-            link.href = 'resume/Shreneek_Upadhye_Resume.pdf'; // Update with actual path
+            link.href = 'assets/Shreneek_Upadhye_Resume.pdf'; // Update with your actual file path
             link.download = 'Shreneek_Upadhye_Resume.pdf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
-            // Keep the alert as a user feedback
-            alert("Thank you for your interest! Your download is starting...");
         });
     });
 }
@@ -143,6 +140,7 @@ function setupCookieConsent() {
     
     if (acceptButton) {
         acceptButton.addEventListener('click', function() {
+            console.log("Accept button clicked"); // Add this for debugging
             cookieConsent.style.display = 'none';
             localStorage.setItem('cookieConsent', 'accepted');
         });
@@ -150,6 +148,7 @@ function setupCookieConsent() {
     
     if (declineButton) {
         declineButton.addEventListener('click', function() {
+            console.log("Decline button clicked"); // Add this for debugging
             cookieConsent.style.display = 'none';
             localStorage.setItem('cookieConsent', 'declined');
         });
@@ -161,29 +160,6 @@ function setupCookieConsent() {
         cookieConsent.style.display = 'none';
     }
 }
-
-// Set up live chat functionality
-function setupLiveChat() {
-    const liveChat = document.getElementById('live-chat');
-    if (!liveChat) return;
-    
-    const chatHeader = liveChat.querySelector('.chat-header');
-    const closeChat = liveChat.querySelector('.close-chat');
-    const chatInput = liveChat.querySelector('.chat-input input');
-    const chatSendButton = liveChat.querySelector('.chat-input button');
-    const chatMessages = liveChat.querySelector('.chat-messages');
-    
-    // Toggle chat visibility
-    if (closeChat) {
-        closeChat.addEventListener('click', function() {
-            liveChat.classList.toggle('collapsed');
-            if (liveChat.classList.contains('collapsed')) {
-                closeChat.textContent = '♦';
-            } else {
-                closeChat.textContent = '✖';
-            }
-        });
-    }
     
     // Send a message
     function sendMessage() {
