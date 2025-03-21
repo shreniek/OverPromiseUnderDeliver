@@ -104,19 +104,21 @@ function setupDownloadButtons() {
     
     downloadButtons.forEach(function(button) {
         button.addEventListener('click', function() {
-            // Create a temporary link to download the resume
-            // For now, let's just show an alert since we don't have an actual file
-            alert("Thank you for your interest! Your download is starting...");
+            console.log("Button clicked!"); // Add this to check if click works
             
-            // In a real scenario, you would create a link to a real file like this:
-            // const link = document.createElement('a');
-            // link.href = 'path/to/resume.pdf';
-            // link.download = 'Shreneek_Upadhye_Resume.pdf';
-            // document.body.appendChild(link);
-            // link.click();
-            // document.body.removeChild(link);
+            // Create a temporary link to download the resume
+            const link = document.createElement('a');
+            link.href = 'resume/Shreneek_Upadhye_Resume.pdf'; // Update with actual path
+            link.download = 'Shreneek_Upadhye_Resume.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Keep the alert as a user feedback
+            alert("Thank you for your interest! Your download is starting...");
         });
     });
+}
     
     // Special button for CTA
     const ctaButton = document.querySelector('.giant-cta-btn');
