@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
             Email.send({
                 SecureToken: "973862d2-db09-4bc5-a9c6-d1bd3b14af6c",
                 To: 'shreneek.de@gmail.com',
-                From: 'website-cv@yourdomain.com',
+                From: 'shreneek.de@gmail.com',
                 Subject: `CV Request from ${name}`,
                 Body: emailBody
             }).then(function(message) {
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
             Email.send({
                 SecureToken: "973862d2-db09-4bc5-a9c6-d1bd3b14af6c",
                 To: 'shreneek.de@gmail.com',
-                From: 'website-modal@yourdomain.com',
+                From: 'shreneek.de@gmail.com',
                 Subject: `Website Modal Contact from ${name}`,
                 Body: emailBody
             }).then(function(message) {
