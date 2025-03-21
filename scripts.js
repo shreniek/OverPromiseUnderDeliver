@@ -170,14 +170,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Send email using SMTP.js
             // Replace these values with your actual SMTP credentials
             Email.send({
-                SecureToken: "YOUR_SECURE_TOKEN", // Get this from SMTP.js
+                SecureToken: "973862d2-db09-4bc5-a9c6-d1bd3b14af6c", // Get this from SMTP.js
                 // Alternatively, use these individual settings:
                 // Host: "smtp.example.com",
                 // Username: "your_username",
                 // Password: "your_password",
                 // Port: 587,
                 To: 'shreneek.de@gmail.com', // Your email address
-                From: 'website-contact@yourdomain.com', // Your sender email
+                From: 'shreneek.de@gmail.com', // Your sender email
                 Subject: `Website Contact from ${name}`,
                 Body: emailBody
             }).then(function(message) {
