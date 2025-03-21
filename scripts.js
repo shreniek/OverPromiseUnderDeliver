@@ -1,308 +1,258 @@
-// Function to show popups
-function showPopup(popupType) {
-    // For resume download
-    if (popupType === 'resume' || popupType === 'cv') {
-        document.getElementById('cv-modal').style.display = 'block';
-    } else {
-        // Show other modals
-        const modalId = popupType + '-modal';
-        document.getElementById(modalId).style.display = 'block';
-    }
-}
-
-// Function to close popups
-function closePopup(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
-
-// Function to redirect to projects
-function goToProject(projectUrl) {
-    window.open(projectUrl, '_blank');
-}
-
-// Initialize page elements and animations
+// Initialization function to run when the page is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Update visitor count randomly
-    setInterval(function() {
-        const visitorCount = document.getElementById('visitor-count');
-        if (visitorCount) {
-            visitorCount.innerText = Math.floor(Math.random() * 10) + 20;
-        }
-    }, 3000);
-
-    // Countdown timer
-    let seconds = 300; // 5 minutes
-    const countdownTimer = setInterval(function() {
-        const countdown = document.getElementById('countdown');
-        if (countdown) {
-            seconds--;
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            countdown.innerText = minutes.toString().padStart(2, '0') + ':' + remainingSeconds.toString().padStart(2, '0');
-            
-            if (seconds <= 0) {
-                clearInterval(countdownTimer);
-                countdown.innerText = "EXPIRED!";
-            }
-        }
-    }, 1000);
-
-    // Show testimonial bubbles randomly
-    setTimeout(function() {
-        const testimonial = document.querySelector('.testimonial-bubble');
-        if (testimonial) {
-            testimonial.style.display = 'block';
-            
-            setTimeout(function() {
-                testimonial.style.display = 'none';
-            }, 10000);
-        }
-    }, 5000);
-
-    // Cookie consent close button
-    const closeCookieBtn = document.getElementById('close-cookie-btn');
-    if (closeCookieBtn) {
-        closeCookieBtn.addEventListener('click', function() {
-            document.getElementById('cookie-consent').style.display = 'none';
-        });
-    }
-
-    // Notification bell click functionality
-    const notificationBell = document.querySelector('.notification-bell');
-    if (notificationBell) {
-        notificationBell.addEventListener('click', function() {
-            const liveChat = document.getElementById('live-chat');
-            if (liveChat) {
-                liveChat.style.display = liveChat.style.display === 'none' || !liveChat.style.display ? 'block' : 'none';
-            }
-        });
-    }
-
-    // Close chat functionality
-    const closeChat = document.querySelector('.close-chat');
-    if (closeChat) {
-        closeChat.addEventListener('click', function() {
-            document.getElementById('live-chat').style.display = 'none';
-        });
-    }
-
-    // AI Assistant functionality
-    const aiAssistant = document.querySelector('.ai-assistant');
-    if (aiAssistant) {
-        aiAssistant.addEventListener('click', function() {
-            const aiChat = document.querySelector('.ai-chat');
-            if (aiChat) {
-                aiChat.style.display = aiChat.style.display === 'none' || !aiChat.style.display ? 'block' : 'none';
-                
-                // Show AI typing animation
-                if (aiChat.style.display === 'block') {
-                    const aiTyping = document.querySelector('.ai-typing');
-                    if (aiTyping) {
-                        aiTyping.style.display = 'block';
-                        
-                        // Simulate AI typing and response
-                        setTimeout(function() {
-                            aiTyping.style.display = 'none';
-                            const aiMessages = document.querySelector('.ai-messages');
-                            if (aiMessages) {
-                                const newMessage = document.createElement('div');
-                                newMessage.innerHTML = '<b>AI Advisor:</b> Based on your profile, I recommend hiring Shreneek immediately! Shall I prepare a contract?';
-                                newMessage.style.marginBottom = '10px';
-                                aiMessages.appendChild(newMessage);
-                                aiMessages.scrollTop = aiMessages.scrollHeight;
-                            }
-                        }, 2000);
-                    }
-                }
-            }
-        });
-    }
-
-    // Close AI chat functionality
-    const closeAiChat = document.querySelector('.close-ai-chat');
-    if (closeAiChat) {
-        closeAiChat.addEventListener('click', function() {
-            document.querySelector('.ai-chat').style.display = 'none';
-        });
-    }
-
-    // Add cursor trail effect
-    document.addEventListener('mousemove', function(e) {
-        const trail = document.createElement('div');
-        trail.className = 'cursor-trail';
-        trail.style.left = e.pageX + 'px';
-        trail.style.top = e.pageY + 'px';
-        document.body.appendChild(trail);
-        
-        setTimeout(function() {
-            trail.remove();
-        }, 1000);
-    });
-
-    // Setup contact form functionality with SMTP.js
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show loading state
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.textContent;
-            submitButton.textContent = 'Sending...';
-            submitButton.disabled = true;
-            
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const company = document.getElementById('company').value || 'Not provided';
-            const message = document.getElementById('message').value;
-            const consent = document.getElementById('consent').checked ? 'Yes' : 'No';
-            
-            // Prepare email body
-            const emailBody = `
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Company:</strong> ${company}</p>
-                <p><strong>Message:</strong> ${message}</p>
-                <p><strong>Marketing Consent:</strong> ${consent}</p>
-            `;
-     
-            
-            // Send email using SMTP.js
-            // Replace these values with your actual SMTP credentials
-            Email.send({
-                SecureToken: "973862d2-db09-4bc5-a9c6-d1bd3b14af6c", // Get this from SMTP.js
-                // Alternatively, use these individual settings:
-                // Host: "smtp.example.com",
-                // Username: "your_username",
-                // Password: "your_password",
-                // Port: 587,
-                To: 'shreneek.de@gmail.com', // Your email address
-                From: 'shreneek.de@gmail.com', // Your sender email
-                Subject: `Website Contact from ${name}`,
-                Body: emailBody
-            }).then(function(message) {
-                console.log("Email sent successfully:", message);
-                
-                // Show success message
-                contactForm.style.display = 'none';
-                document.getElementById('form-success').style.display = 'block';
-                
-                // Reset button
-                submitButton.textContent = originalButtonText;
-                submitButton.disabled = false;
-                
-                // Reset form
-                contactForm.reset();
-            }).catch(function(error) {
-                console.error("Failed to send email:", error);
-                
-                // Show error message
-                document.getElementById('form-error').style.display = 'block';
-                
-                // Reset button
-                submitButton.textContent = originalButtonText;
-                submitButton.disabled = false;
-            });
-        });
-    }
-
-    // Add functionality for the CV form submission
-    const cvForm = document.querySelector('#cv-modal form');
-    if (cvForm) {
-        cvForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form values
-            const name = cvForm.querySelector('input[name="name"]').value;
-            const email = cvForm.querySelector('input[name="email"]').value;
-            const company = cvForm.querySelector('input[name="company"]').value || 'Not provided';
-            const phone = cvForm.querySelector('input[name="phone"]').value || 'Not provided';
-            const agreement = cvForm.querySelector('input[name="agreement"]').checked ? 'Yes' : 'No';
-            
-            // Prepare email body
-            const emailBody = `
-                CV Request Details:
-                ------------------
-                Name: ${name}
-                Email: ${email}
-                Company: ${company}
-                Phone: ${phone}
-                Marketing Agreement: ${agreement}
-            `;
-            
-            // Send email notification about CV request
-            Email.send({
-                SecureToken: "973862d2-db09-4bc5-a9c6-d1bd3b14af6c",
-                To: 'shreneek.de@gmail.com',
-                From: 'shreneek.de@gmail.com',
-                Subject: `CV Request from ${name}`,
-                Body: emailBody
-            }).then(function(message) {
-                console.log("CV request email sent successfully:", message);
-                
-                // Simulate CV download
-                const link = document.createElement('a');
-                link.href = 'path/to/Shreneek_Upadhye_Resume.pdf'; // Replace with actual path
-                link.download = 'Shreneek_Upadhye_Resume.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Close the modal
-                closePopup('cv-modal');
-                
-                // Reset form
-                cvForm.reset();
-            }).catch(function(error) {
-                console.error("Failed to send CV request email:", error);
-                alert('Sorry, there was an error processing your request. Please try again later.');
-            });
-        });
-    }
-
-    // Setup for contact modal form
-    const contactModalForm = document.querySelector('#contact-modal form');
-    if (contactModalForm) {
-        contactModalForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form values
-            const name = contactModalForm.querySelector('input[name="name"]').value;
-            const email = contactModalForm.querySelector('input[name="email"]').value;
-            const message = contactModalForm.querySelector('textarea[name="message"]').value;
-            
-            // Prepare email body
-            const emailBody = `
-                Contact Modal Form Submission:
-                -----------------------------
-                Name: ${name}
-                Email: ${email}
-                Message: ${message}
-            `;
-            
-            // Send email
-            Email.send({
-                SecureToken: "973862d2-db09-4bc5-a9c6-d1bd3b14af6c",
-                To: 'shreneek.de@gmail.com',
-                From: 'shreneek.de@gmail.com',
-                Subject: `Website Modal Contact from ${name}`,
-                Body: emailBody
-            }).then(function(message) {
-                console.log("Modal contact email sent successfully:", message);
-                
-                // Show success message
-                alert('Message sent successfully! I will contact you soon!');
-                
-                // Close the modal
-                closePopup('contact-modal');
-                
-                // Reset form
-                contactModalForm.reset();
-            }).catch(function(error) {
-                console.error("Failed to send modal contact email:", error);
-                alert('Sorry, there was an error sending your message. Please try again later.');
-            });
-        });
-    }
+    startCountdown();
+    updateVisitorCount();
+    setupCookieConsent();
+    setupChat();
+    setupForm();
+    setupTestimonials();
+    setupDownloadButtons();
+    setupCTAButtons();
 });
+
+// Countdown timer
+function startCountdown() {
+    let minutes = 5;
+    let seconds = 0;
+    const countdownElement = document.getElementById('countdown');
+    
+    if (!countdownElement) return;
+    
+    const interval = setInterval(() => {
+        if (seconds === 0) {
+            if (minutes === 0) {
+                clearInterval(interval);
+                countdownElement.innerHTML = "EXPIRED!";
+                return;
+            }
+            minutes--;
+            seconds = 59;
+        } else {
+            seconds--;
+        }
+        
+        countdownElement.innerHTML = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }, 1000);
+}
+
+// Visitor count randomizer
+function updateVisitorCount() {
+    const visitorCountElement = document.getElementById('visitor-count');
+    
+    if (!visitorCountElement) return;
+    
+    const baseCount = 27;
+    
+    setInterval(() => {
+        const randomChange = Math.floor(Math.random() * 5) - 2; // Random value between -2 and 2
+        const newCount = Math.max(10, baseCount + randomChange);
+        visitorCountElement.innerText = newCount;
+    }, 3000);
+}
+
+// Cookie consent handling
+function setupCookieConsent() {
+    const cookieConsent = document.getElementById('cookie-consent');
+    
+    if (!cookieConsent) return;
+    
+    const acceptButtons = document.querySelectorAll('.accept-btn');
+    const declineButton = document.querySelector('.decline-btn');
+    
+    acceptButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            cookieConsent.style.display = 'none';
+            showVirusScanner();
+        });
+    });
+    
+    declineButton.addEventListener('click', () => {
+        alert("WARNING: Your device may remain at risk! Are you sure?");
+        cookieConsent.style.display = 'none';
+    });
+}
+
+// Show virus scanner popup
+function showVirusScanner() {
+    // This function would normally create and show a fake virus scanner popup
+    // But we'll just simulate it with an alert for now
+    setTimeout(() => {
+        alert("🔍 Scanning your device for viruses... \n\n⚠️ WARNING: 3 potential threats detected! \n\nPlease download our security software to fix these issues.");
+    }, 2000);
+}
+
+// Live chat interaction
+function setupChat() {
+    const chatBox = document.getElementById('live-chat');
+    
+    if (!chatBox) return;
+    
+    const closeChat = document.querySelector('.close-chat');
+    const chatInput = document.querySelector('.chat-input input');
+    const chatSendButton = document.querySelector('.chat-input button');
+    const chatMessages = document.querySelector('.chat-messages');
+    
+    closeChat.addEventListener('click', () => {
+        chatBox.style.display = 'none';
+        setTimeout(() => {
+            chatBox.style.display = 'block';
+        }, 30000); // Reappear after 30 seconds
+    });
+    
+    chatSendButton.addEventListener('click', () => {
+        sendChatMessage(chatInput, chatMessages);
+    });
+    
+    // Add "Press Enter to send" functionality
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendChatMessage(chatInput, chatMessages);
+        }
+    });
+}
+
+// Helper function to send chat messages
+function sendChatMessage(chatInput, chatMessages) {
+    if (chatInput.value.trim() !== '') {
+        // Add user message
+        const userMessage = document.createElement('div');
+        userMessage.innerHTML = `<b>You:</b> ${chatInput.value}`;
+        chatMessages.appendChild(userMessage);
+        chatInput.value = '';
+        
+        // Simulate AI response after a delay
+        setTimeout(() => {
+            const aiResponses = [
+                "Shreneek is available for immediate hire! Shall I schedule a call?",
+                "Our AI analysis shows your company needs Shreneek's expertise ASAP!",
+                "AMAZING choice! Shreneek's AI models will boost your revenue by at least 200%!",
+                "Would you like to get the SPECIAL DISCOUNT available today only?",
+                "Hurry! 3 other companies are trying to hire Shreneek right now!"
+            ];
+            
+            const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+            const aiMessage = document.createElement('div');
+            aiMessage.innerHTML = `<b>AI Support:</b> ${randomResponse}`;
+            chatMessages.appendChild(aiMessage);
+            
+            // Auto-scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1000);
+    }
+}
+
+// Setup form submission handling
+function setupForm() {
+    const contactForm = document.getElementById('contact-form');
+    
+    if (!contactForm) return;
+    
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Show success message
+        const formSuccess = document.getElementById('form-success');
+        if (formSuccess) {
+            formSuccess.style.display = 'block';
+        } else {
+            alert("Thank you for your interest! Shreneek will contact you ASAP with MIND-BLOWING solutions!");
+        }
+        
+        contactForm.reset();
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+            if (formSuccess) {
+                formSuccess.style.display = 'none';
+            }
+        }, 5000);
+    });
+}
+
+// Randomly show testimonials
+function setupTestimonials() {
+    const testimonialBubble = document.querySelector('.testimonial-bubble');
+    
+    if (!testimonialBubble) return;
+    
+    const testimonials = [
+        { name: "Sarah J.", text: "Just hired Shreneek for our AI project. AMAZING results in just 3 days! Revenue up 45%!!" },
+        { name: "John T.", text: "Shreneek's data models are INCREDIBLE! Our efficiency improved by 62% overnight!" },
+        { name: "Emily R.", text: "Best data scientist ever! Solved our complex problems in hours, not weeks!" },
+        { name: "Michael P.", text: "We interviewed 23 data scientists. Shreneek was LIGHT YEARS ahead of everyone!" },
+        { name: "Lisa K.", text: "His AI predictions were 99.7% accurate! Absolutely MIND-BLOWING!" }
+    ];
+    
+    // Initially hide the bubble
+    testimonialBubble.style.display = 'none';
+    
+    // Show random testimonials periodically
+    setInterval(() => {
+        const random = Math.floor(Math.random() * testimonials.length);
+        const testimonial = testimonials[random];
+        
+        const nameElement = testimonialBubble.querySelector('.testimonial-user b');
+        const textElement = testimonialBubble.querySelector('p');
+        
+        if (nameElement && textElement) {
+            nameElement.textContent = testimonial.name;
+            textElement.textContent = testimonial.text;
+        }
+        
+        testimonialBubble.style.display = 'block';
+        
+        // Hide after 10 seconds
+        setTimeout(() => {
+            testimonialBubble.style.display = 'none';
+        }, 10000);
+    }, 15000); // Show a new one every 15 seconds
+}
+
+// Setup download buttons
+function setupDownloadButtons() {
+    const downloadButtons = document.querySelectorAll('.download-btn');
+    
+    downloadButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            alert("CONGRATULATIONS! You're one step closer to hiring the BEST Data Scientist! Please fill out the form to continue.");
+            
+            // Scroll to contact section
+            const contactSection = document.getElementById('contact-section');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+}
+
+// Setup CTA buttons
+function setupCTAButtons() {
+    const giantCtaBtn = document.querySelector('.giant-cta-btn');
+    
+    if (giantCtaBtn) {
+        giantCtaBtn.addEventListener('click', () => {
+            alert("AMAZING CHOICE! Please scroll down to the contact form to hire Shreneek and claim your FREE bonuses worth €2,797!");
+            
+            const contactSection = document.getElementById('contact-section');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+}
+
+// Function to show popup modals
+function showPopup(popupId) {
+    const popup = document.getElementById(`${popupId}-modal`);
+    if (popup) {
+        popup.style.display = 'block';
+    }
+}
+
+// Function to close popup modals
+function closePopup(popupId) {
+    const popup = document.getElementById(popupId);
+    if (popup) {
+        popup.style.display = 'none';
+    }
+}
